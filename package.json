@@ -1,0 +1,14 @@
+{
+  "name": "cff3d60368bf6eee",
+  "main": "cff3d60368bf6eee@372.js",
+  "version": "372.0.0",
+  "homepage": "https://observablehq.com/d/cff3d60368bf6eee",
+  "author": {
+    "name": "Kevin Gutierrez",
+    "url": "https://observablehq.com/@kahernandezg"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}
