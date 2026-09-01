@@ -1,6 +1,6 @@
 # NOTEBOOK CODING: CUADERNOS DE INDICADORES BIBLIOMÉTRICOS PARA REVISTAS EN OJS-OPENALEX
 
-[https://observablehq.com/d/cff3d60368bf6eee@372](https://observablehq.com/d/cff3d60368bf6eee)
+[https://observablehq.com/d/cff3d60368bf6eee](https://observablehq.com/d/cff3d60368bf6eee)
 
 View this notebook in your browser by running a web server in this folder. For
 example:
