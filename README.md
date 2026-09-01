@@ -1,6 +1,6 @@
 # NOTEBOOK CODING: CUADERNOS DE INDICADORES BIBLIOMÉTRICOS PARA REVISTAS EN OJS-OPENALEX
 
-[observablehq.com/@kahernandezg/notebook-coding-cuadernos-de-indicadores-biblometr](observablehq.com/@kahernandezg/notebook-coding-cuadernos-de-indicadores-biblometr)
+[https://old.observablehq.com/@kahernandezg/notebook-coding-cuadernos-de-indicadores-biblometr](https://old.observablehq.com/@kahernandezg/notebook-coding-cuadernos-de-indicadores-biblometr)
 
 View this notebook in your browser by running a web server in this folder. For
 example:
