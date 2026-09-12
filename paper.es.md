@@ -349,7 +349,7 @@ const config = {
 El panel combina series temporales, rankings, distribuciones y redes para que
 cada indicador utilice una representación visual adecuada a su naturaleza.
 
-![Indicadores bibliometricos.](figures/Notebook coding Indicators.png)
+![Indicadores bibliometricos.](figures/[Notebook coding Indicators.png](https://github.com/Kahernandezg/Notebook-coding-bibliometric/blob/main/figures/Notebook%20coding%20Indicators.png))
 
 # Limitaciones
 
