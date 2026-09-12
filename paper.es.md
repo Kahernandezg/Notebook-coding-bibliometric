@@ -349,7 +349,7 @@ const config = {
 El panel combina series temporales, rankings, distribuciones y redes para que
 cada indicador utilice una representación visual adecuada a su naturaleza.
 
-![Productividad de autores comparada con la predicción de la Ley de Lotka en escala logarítmica.](figures/lotka-law.png)
+![Productividad de autores comparada con la predicción de la Ley de Lotka en escala logarítmica.](figures/chartLotka.png)
 
 ![Tarjetas con h-index, i10-index, citación media a dos años y tasa de autocitación calculadas a partir de OpenAlex.](figures/indicator-cards.png)
 
