@@ -349,11 +349,7 @@ const config = {
 El panel combina series temporales, rankings, distribuciones y redes para que
 cada indicador utilice una representación visual adecuada a su naturaleza.
 
-![Productividad de autores comparada con la predicción de la Ley de Lotka en escala logarítmica.](figures/chartLotka.png)
-
-![Tarjetas con h-index, i10-index, citación media a dos años y tasa de autocitación calculadas a partir de OpenAlex.](figures/indicator-cards.png)
-
-![Red de coautoría o concentración institucional generada a partir de los trabajos indexados de la revista.](figures/collaboration-network.png)
+![Indicadores bibliometricos.](figures/chartLotka.png)
 
 # Limitaciones
 
