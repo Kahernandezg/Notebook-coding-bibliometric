@@ -2,6 +2,8 @@
 
 [https://old.observablehq.com/@kahernandezg/notebook-coding-cuadernos-de-indicadores-biblometr](https://old.observablehq.com/@kahernandezg/notebook-coding-cuadernos-de-indicadores-biblometr)
 
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0005--6780--1106-A6CE39?style=for-the-badge&logo=orcid&logoColor=white)](https://orcid.org/0009-0005-6780-1106)
+
 View this notebook in your browser by running a web server in this folder. For
 example:
 
