@@ -349,11 +349,7 @@ const config = {
 The panel combines time series, rankings, distributions, and networks so
 that each indicator uses a visual form suited to its nature.
 
-![Author productivity compared against the prediction of Lotka's Law on a logarithmic scale.](figures/lotka-law.png)
-
-![Cards showing the h-index, i10-index, two-year mean citedness, and self-citation rate computed from OpenAlex.](figures/indicator-cards.png)
-
-![Co-authorship or institutional-concentration network generated from the journal's indexed works.](figures/collaboration-network.png)
+![Indicadores bibliométricos](figures/Notebook%20coding%20Indicators.png)
 
 # Limitations
 
