@@ -2,7 +2,7 @@
 
 [https://old.observablehq.com/@kahernandezg/notebook-coding-cuadernos-de-indicadores-biblometr](https://old.observablehq.com/@kahernandezg/notebook-coding-cuadernos-de-indicadores-biblometr)
 
-# **Kevin Amilcar Hernández Gutierrez**<sup>1</sup>
+**Kevin Amilcar Hernández Gutierrez**<sup>1</sup>
 
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0005--6780--1106-A6CE39?style=for-the-badge&logo=orcid&logoColor=white)](https://orcid.org/0009-0005-6780-1106)
 
