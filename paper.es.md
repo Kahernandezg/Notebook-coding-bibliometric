@@ -1,381 +1,193 @@
+# Notebook Coding: cuadernos reproducibles de Observable para la enseñanza y el análisis bibliométrico de revistas OJS con OpenAlex
+
+## (1) Resumen / Overview
+
+### Título
+Notebook Coding: cuadernos reproducibles de Observable para la enseñanza y el análisis bibliométrico de revistas OJS con OpenAlex
+
+### Autores
+**Hernández Gutiérrez, Kevin Amílcar**  
+ORCID: [https://orcid.org/0009-0005-6780-1106](https://orcid.org/0009-0005-6780-1106)
+
+### Roles y afiliaciones de los autores
+Conceptualización, desarrollo de software y redacción (borrador original); Universidad Centroamericana “José Simeón Cañas” (UCA), El Salvador.
+
+### Resumen
+*Notebook Coding* es una colección de cuadernos abiertos y reproducibles de Observable que calculan y visualizan diecinueve indicadores bibliométricos, entre ellos la producción anual y las citas recibidas, la cobertura de los Objetivos de Desarrollo Sostenible (ODS) de las Naciones Unidas, la cobertura de DOI y ORCID, el estado de acceso abierto, la tasa de autocitación, la productividad de autores según la Ley de Lotka, el índice h y el índice i10 para revistas académicas indexadas en OpenAlex y gestionadas con Open Journal Systems (OJS). Cada cuaderno consulta directamente la API REST de OpenAlex, por lo que los resultados reflejan el índice en vivo en lugar de una exportación estática. Los indicadores pueden incrustarse en una instalación de OJS como un iframe responsivo o exportarse como imágenes estáticas, lo que ofrece a editores, bibliotecarios y estudiantes sin acceso institucional a Scopus, el Scimago Journal Rank o Web of Science una alternativa reproducible y bifurcable (*forkable*) para la formación aplicada en bibliometría.
+
+### Palabras clave
+Bibliometría; código abierto; OpenAlex; cuadernos de Observable; Open Journal Systems (OJS); JavaScript
+
 ---
-title: "Notebook Coding: enseñando bibliometría a través del código </>: notebooks reproducibles para el análisis de revistas en OJS y OpenAlex"
-tags:
-  - JavaScript
-  - Observable
-  - Bibliometría
-  - Ciencia abierta
-  - OpenAlex
-  - Open Journal Systems
-  - Publicación académica
-authors:
-  - name: "Kevin Amilcar Hernández Gutierrez"
-    orcid: "0009-0005-6780-1106"
-    affiliation: 1
-affiliations:
-  - name: 'Universidad Centroamericana "José Simeón Cañas" (UCA), El Salvador'
-    index: 1
-date: "12 de septiembre de 2026"
-bibliography: paper.bib
+
+### Introducción
+Los equipos editoriales de revistas alojadas en OJS [20] en América Latina y el Caribe rara vez cuentan con acceso institucional a Scopus, el Scimago Journal Rank o Web of Science [11]. Esto limita su capacidad para evaluar y analizar su propia producción, y afecta de manera desproporcionada a las revistas de acceso abierto que no están indexadas en bases de datos comerciales. El propio módulo de estadísticas de OJS [20] reporta vistas de página y descargas conformes con COUNTER [1] para una instalación específica, pero estos datos no siempre garantizan continuidad histórica, y no cubren indicadores bibliométricos como el conteo de citas o las medidas de productividad. Por ello, este estudio propone utilizar OpenAlex, una base de datos bibliográfica emergente que se ha posicionado considerablemente en los últimos años. El panorama de las fuentes de datos para el análisis bibliométrico ha experimentado una transformación notable con la aparición de alternativas abiertas a las bases tradicionales. Macêdo, Schiessl y Shintaku [19] destacan precisamente este fenómeno en su análisis sobre el uso de OpenAlex en los estudios de métricas bibliométricas, donde concluyen que la plataforma constituye una alternativa viable y eficaz que puede complementar las fuentes métricas tradicionales, especialmente para el análisis comparativo de publicaciones y citas [19].
+
+Editores, bibliotecarios y estudiantes de bibliotecología y ciencias de la información que quieren aprender bibliometría aplicada suelen formarse con interfaces propietarias o software que requiere instalación local, o en algunos casos suscripciones costosas o capacitación intensiva para el procesamiento de los datos. Estas herramientas pueden ser inaccesibles para revistas pequeñas, instituciones con recursos limitados o programas de formación que necesitan ejemplos reproducibles e inspeccionables.
+
+En la actualidad no existe una sola herramienta que integre a su vez tiempo real, APIs abiertas e integración nativa en un CMS editorial como OJS o EPrints. Lo que sí existe es un ecosistema fragmentado, con herramientas que cubren una o dos de esas condiciones, como VOSviewer, Bibliometrix/Biblioshiny y Publish or Perish [16]–[19]. Aunque estas herramientas se encuentran ampliamente consolidadas en la práctica bibliométrica, su facilidad de uso también puede favorecer la generación de resultados aparentemente rigurosos sin una comprensión suficiente de los fundamentos metodológicos. Como advierten Repiso Caballero y Cabezas Clavijo [14], la facilidad de uso de determinadas herramientas puede contribuir a producir resultados vistosos sin que necesariamente exista una adecuada comprensión de los procedimientos bibliométricos empleados.
+
+En este contexto, Notebook Coding no pretende reemplazar las herramientas ya existentes, sino incorporarse como una alternativa orientada a fortalecer el rigor y la reproducibilidad metodológica de los análisis bibliométricos. Este argumento resulta pertinente con las advertencias que mencionan Repiso Caballero y Cabezas Clavijo [14], quienes señalan la proliferación de trabajos bibliométricos que no siempre alcanzan la complejidad metodológica necesaria. Entre los factores que estos autores proponen considerar se encuentra la elección de los “programas de análisis y visualización de datos” [14]. La elección de estos programas determina los tipos de análisis posibles y el nivel de profundidad y complejidad de los estudios.
+
+Notebook Coding cierra parte de esta brecha combinando datos bibliográficos abiertos de OpenAlex [10], consultas directas a la API REST [9], programación literaria [5] y visualización interactiva en Observable [7] en un único conjunto de celdas e indicadores bifurcables. En lugar de depender exclusivamente de bases de datos de citas comerciales o de software instalado externamente, cada celda del cuaderno consulta directamente la API REST de OpenAlex [9]; las celdas se vuelven a ejecutar cada vez que se carga la visualización, de modo que el panel refleja el estado del índice de OpenAlex disponible en el momento de la consulta, en lugar de una exportación estática generada previamente. Debido a que cada celda representa uno o más indicadores combinados, tiene un nombre descriptivo y está organizada según sus dependencias de datos, una clase o taller puede usar un solo indicador como ejercicio autónomo sin requerir que los estudiantes comprendan todo el flujo de trabajo desde el principio.
+
 ---
 
-# Resumen
-
-`Notebook Coding` es una colección de cuadernos abiertos y reproducibles,
-escritos en JavaScript en la plataforma Observable [@observable2024]. Los
-cuadernos calculan y visualizan indicadores bibliométricos para revistas
-académicas indexadas en OpenAlex [@priem2022openalex] gestionadas mediante Open Journal Systems (OJS).
-
-En lugar de depender exclusivamente de bases de datos comerciales de
-citación, o dependencia de programas externos; cada cuaderno consulta directamente la API REST de OpenAlex
-[@priem2022openalex]. Las celdas se reejecutan cuando se carga la
-visualización, por lo que el panel refleja el estado disponible del índice de
-OpenAlex en el momento de la consulta, y no una exportación estática
-previamente generada.
-
-El proyecto implementa catorce indicadores organizados en celdas
-independientes y descriptivas:
-
-- producción anual y citas recibidas;
-- los diez trabajos más citados;
-- cobertura de los Objetivos de Desarrollo Sostenible de las Naciones Unidas (ODS);
-- cobertura de DOI y ORCID;
-- estado de acceso abierto;
-- procedencia geográfica e institucional de las obras citantes;
-- tasa de autocitación;
-- productividad de autores según la Ley de Lotka;
-- h-index;
-- i10-index;
-- citación media a dos años;
-- concentración de contribuciones autorales;
-- concentración de contribuciones geográficas por país;
-- concentración institucional de publicaciones;
-
-Para las estadísticas propias de OJS, como vistas de página y descargas,
-que no forman parte de la cobertura bibliográfica de OpenAlex, el caso de
-estudio incorpora gráficos construidos con Datawrapper [@datawrapper2024].
-Estas visualizaciones utilizan datos procedentes directamente del módulo de
-estadísticas de OJS.
-
-Cada indicador basado en OpenAlex puede integrarse en una instalación activa
-de OJS mediante un `<iframe>` responsivo que apunte a una celda publicada de
-Observable. También puede exportarse como una imagen estática en formato PNG
-o SVG.
-
-La reutilización del panel para otra revista requiere modificar cuatro
-parámetros principales:
-
-1. el identificador de fuente de la revista en OpenAlex;
-2. una dirección de correo electrónico de contacto;
-3. una clave de API de OpenAlex, cuando corresponda.
-4. insertar el `<iframe>` en una ventana del editor de código `</>` de OJS.
-
-El repositorio incluye un ejemplo de aplicación utilizando a la REDC como unidad
- de análisis y una guía técnica de inserción en OJS:
-
-- *Revista Española de Documentación Científica*.
-
-El código fuente está disponible en un repositorio público de GitHub
-[@hernandezgutierrez2026github] y archivado en Figshare mediante el DOI
-[10.6084/m9.figshare.33107114](https://doi.org/10.6084/m9.figshare.33107114)
-[@hernandezgutierrez2026notebookcoding]. Los tres recursos se distribuyen bajo
-la licencia MIT.
-
-# Declaración de necesidad
-
-Los equipos editoriales de revistas alojadas en OJS a nivel de América Latina y el Caribe [@willinsky2005open] rara
-vez tienen acceso institucional a Scopus, Scimago Journal Rank o Web of
-Science. Esta limitación de evaluación y posibilidad de análisis afecta especialmente a revistas de acceso abierto
-que no están indexadas en bases de datos comerciales.
-
-El módulo estadístico de OJS ofrece información sobre vistas de página y descargas conforme al estándar COUNTER dentro
-de una instalación específica; sin embargo, estos datos no siempre garantizan continuidad histórica. Ante esta y otras
-limitaciones que OJS aún presenta en materia de informes y analítica de rendimiento editorial particularmente en lo
-relativo a indicadores bibliométricos, el presente estudio propone una solución alternativa.
-
-Editores, bibliotecarios y estudiantes de bibliotecología y ciencias de la
-información que desean aprender bibliometría aplicada suelen recibir
-formación mediante interfaces propietarias o software que requiere instalación
-o en algunos casos suscripciones costosas. Estas herramientas pueden ser
-inaccesibles para las revistas pequeñas, las instituciones con recursos
-limitados o los programas de formación que necesitan ejemplos reproducibles.
-
-`Notebook Coding` cierra esa brecha para una audiencia específica y hasta ahora desatendida:
-personas que dirigen o estudian una revista que no está indexada en una base de
-datos comercial de referencia y que quieren un ejemplo trabajado y
-bifurcable (forkable) de cómo los datos bibliográficos abiertos y las
-herramientas de programación literaria abiertas pueden combinarse para
-construir el mismo tipo de indicadores, con código fuente completamente
-inspeccionable y resultados reproducibles. El proyecto está dirigido a
-personas que administran o estudian revistas no indexadas en bases de datos
-comerciales importantes y desean aprender a combinar:
-
-- datos bibliográficos abiertos;
-- APIs de consulta;
-- programación literaria [@knuth1984literate];
-- visualización interactiva;
-- análisis bibliométrico reproducible.
-
-Cada celda del cuaderno representa un indicador que se conecta con un endpoint de la API REST de OpenAlex,
-tiene un nombre descriptivo y está organizada según sus dependencias de datos. Por ello, una clase o taller
-puede utilizar un indicador individual como ejercicio autocontenido sin requerir que los estudiantes comprendan
-inicialmente todo el flujo de trabajo.
-
-# Métodos y fórmulas
-
-Dado que la bibliometría basada en cuadernos de código es una metodología
-relativamente poco conocida, esta sección documenta, fórmula por fórmula y
-constante por constante, cómo se calcula realmente cada indicador y cómo
-se construyen las consultas subyacentes a OpenAlex. La descripción incluye los supuestos,
-constantes y limitaciones de cada procedimiento.
-
-## Acceso controlado y tolerante a fallos
+### Implementación y arquitectura
+Notebook Coding está organizado como un conjunto de celdas independientes en cuadernos de Observable [7], cada una correspondiente a un único indicador bibliométrico y conectada a la API REST de OpenAlex [9]. Se utilizan tres patrones de solicitud, según lo que necesite cada indicador: 
+1. Una cola con reintentos y concurrencia acotada para las solicitudes ordinarias a la API;
+2. Paginación basada en cursor para los indicadores que requieren el detalle de cada obra; y
+3. Agregación del lado del servidor mediante `group_by` para los indicadores que solo necesitan conteos de frecuencia.
 
-Las solicitudes a OpenAlex se gestionan mediante una cola de concurrencia
-limitada. Esta cola utiliza un semáforo con un máximo de tres solicitudes
-simultáneas: `maxConcurrent = 3`. Las solicitudes pendientes se mantienen en una cola FIFO (*first in, first
-out*). De este modo, aunque varios indicadores soliciten datos al mismo
-tiempo, el número de peticiones simultáneas no supera el límite establecido.
+Las estadísticas de uso nativas de OJS [20] (vistas de página y descargas), que quedan fuera de la cobertura bibliográfica de OpenAlex, se visualizan por separado usando Datawrapper [2], a partir de datos exportados del propio módulo de estadísticas de OJS. Cada indicador basado en OpenAlex puede incrustarse en una instalación de OJS en vivo como un `<iframe>` responsivo que apunta a una celda publicada de Observable [7], o exportarse como una imagen estática PNG o SVG.
 
-Cada solicitud incluye el parámetro `mailto`, que identifica al responsable
-del uso de la API y permite acceder al denominado *polite pool*. Las
-credenciales de acceso (`mailto` y `api_key`), cuando se utilizan, deben
-almacenarse como secretos o variables de entorno, y no incluirse en texto
-plano dentro del código publicado.
+#### Acceso con límite de tasa y tolerancia a fallos
+Las solicitudes a OpenAlex se gestionan mediante una cola de concurrencia acotada que utiliza un semáforo con un máximo de tres solicitudes simultáneas (`maxConcurrent = 3`). Las solicitudes pendientes se mantienen en una cola FIFO (primero en entrar, primero en salir), de modo que, incluso cuando varios indicadores solicitan datos al mismo tiempo, el número de solicitudes simultáneas nunca supera el límite configurado.
 
-Cuando OpenAlex devuelve una respuesta HTTP `429`, la solicitud se reintenta
-hasta seis veces. El tiempo de espera se define como:
+Cada solicitud incluye el parámetro `mailto`, que identifica a la parte responsable del uso de la API y otorga acceso al *polite pool* (grupo prioritario) de OpenAlex. Las credenciales de acceso (`mailto` y `api_key`), cuando se utilizan, deben almacenarse como secretos o variables de entorno en lugar de incluirse como texto plano en el código publicado.
 
-$$
-t_{\text{espera}}(k) =
-\begin{cases}
-1000 \cdot r & \text{si la respuesta trae un encabezado Retry-After } r \\
-600 \cdot 2^{k} + u, \ u \sim \mathcal{U}(0,300)\text{ ms} & \text{en caso contrario}
-\end{cases}
-$$
+Cuando OpenAlex devuelve una respuesta HTTP 429, la solicitud se reintenta hasta seis veces. El tiempo de espera se define como:
 
-donde:
+$$t_{wait,k} = \begin{cases} 1000 \cdot r & \text{si la respuesta contiene un encabezado Retry-After } r \\ 600 \cdot 2^k + u, & u \sim U(0,300) \text{ ms en otro caso} \end{cases}$$
 
-- $k \in \{0,1,\ldots,5\}$ es el número del intento de reintento;
-- $r$ es el valor, en segundos, indicado por `Retry-After`;
-- $U(0,300)$ es un término aleatorio uniforme, expresado en
-  milisegundos;
-- el término aleatorio evita que varias solicitudes vuelvan a intentarse
-  exactamente al mismo tiempo.
+donde $k \in \{0, 1, \dots, 5\}$ es el número de intento de reintento, $r$ es el valor en segundos indicado por `Retry-After`, y $u \sim U(0,300)$ es un término aleatorio uniforme en milisegundos que evita la colisión simultánea de peticiones (*jitter*).
 
-Esta estrategia corresponde a un esquema de retroceso exponencial con
-variación aleatoria (*exponential backoff with jitter*).
+#### Recuperación exhaustiva del corpus
+Los indicadores que necesitan el detalle de cada artículo (productividad de autores, las obras más citadas, procedencia de las citas) recorren todo el corpus de la revista mediante la paginación por cursor de OpenAlex, comenzando en `cursor = "*"`, solicitando `per_page = 200` obras por llamada, y continuando mientras `meta.next_cursor` esté presente. Una revista con $N$ obras se recupera en $\lceil N/200 \rceil$ solicitudes. En general, el número aproximado de solicitudes es:
 
-## Recuperación exhaustiva del corpus
+$$Q = \left\lceil \frac{N}{p} \right\rceil$$
 
-Los indicadores que necesitan detalle por artículo (productividad de autores, artículos más citados,
-procedencia de las citas) no pueden depender solo de conteos agregados:
-recorren todo el corpus de la revista mediante la paginación por cursor de
-OpenAlex, comenzando en `cursor = "*"`, solicitando `per_page = 200`
-trabajos por llamada, y continuando mientras exista `meta.next_cursor`. Una
-revista con $N$ trabajos se recupera así en $\lceil N/200 \rceil$
-solicitudes, cada una enrutada por la misma cola y lógica de reintento
-descritas arriba.
+La documentación de OpenAlex indica que `per_page = 100` es el máximo admitido para las consultas generales de listado, mientras que las consultas agrupadas (`group_by`) devuelven hasta 200 grupos por página [7, 8]. Se recomienda verificar el valor real devuelto por la API antes de asumir que $Q = \lceil N/p \rceil$ se cumple exactamente con $p=200$.
 
-Si una consulta recupera $N$ trabajos y la consulta utiliza un tamaño de
-página $p$, el número aproximado de solicitudes es:
+#### Agregación del lado del servidor
+Los indicadores que solo necesitan conteos de frecuencia se calculan utilizando el parámetro `group_by` de OpenAlex: cobertura de los ODS, cobertura de DOI, cobertura de ORCID, estado de acceso abierto, concentración de autores, distribución por país y concentración institucional. Para un indicador de cobertura, la proporción se define como:
 
-$$Q = \left\lceil \frac{N}{p} \right\rceil.$$
+$$p = \frac{n_{count}}{n_{total}}, \quad p \in [0, 1], \quad p\% = 100 \cdot p$$
 
-Para consultas generales, se recomienda utilizar el tamaño de página admitido
-por la versión vigente de la API. La documentación actual de OpenAlex señala
-que `per_page=100` es el máximo compatible para consultas generales, mientras
-que las consultas agrupadas pueden devolver hasta 200 grupos y también pueden
-paginarse mediante cursor [@openalexpaging2026; @openalexgrouping2026]. Cabe
-señalar que las celdas de recuperación completa del corpus en este proyecto
-solicitan `per_page=200`, un valor superior al límite general actualmente
-documentado para el listado de trabajos; se recomienda verificar el valor
-real de `meta.per_page` devuelto por la API antes de asumir que
-$Q = \lceil N/p \rceil$ se cumple exactamente con $p=200$.
+Si $n_{total} = 0$, el indicador se devuelve como *no disponible* en lugar de cero, para evitar confundir la ausencia de datos con la ausencia del fenómeno.
 
-## Agregación en el servidor
+#### Productividad de autores y la Ley of Lotka
+Cada autor se identifica mediante su identificador persistente de OpenAlex. La distribución observada es:
 
-Los indicadores que solo requieren conteos de frecuencia se calculan mediante
-el parámetro `group_by` de OpenAlex. Entre ellos se incluyen:
+$$A_{obs}(n) = |\{ a : works(a) = n \}|$$
 
-- cobertura de los ODS;
-- cobertura de DOI;
-- cobertura de ORCID;
-- estado de acceso abierto;
-- concentración por autor;
-- distribución por país;
-- concentración institucional.
+La referencia teórica se basa en la Ley de Lotka [6]:
 
-En estos casos, OpenAlex devuelve grupos con sus respectivos conteos. El
-cuaderno transforma los grupos en estructuras adecuadas para las
-visualizaciones.
+$$A_{Lotka}(n) = \frac{A_1}{n^2}, \quad n \ge 1$$
 
-Para un indicador de cobertura, la proporción se define como:
+donde $A_1$ es el número observado de autores con exactamente una publicación. En este proyecto, $A_1$ no se estima por regresión y el exponente 2 no se ajusta a los datos; el gráfico es una comparación pedagógica orientativa.
 
-$$p = \frac{n_{\text{casos}}}{n_{\text{total}}}, \qquad p \in [0,1],$$
+#### Tasa de autocitación
+El cuaderno selecciona las 50 obras más citadas de la revista y recupera todas las obras que las citan (`filter=cites:OPENALEX_WORK_ID`). La tasa se define como:
 
-y el porcentaje que se muestra en el panel es
+$$SC = \frac{n_{self}}{n_{self} + n_{ext}} \times 100$$
 
-$$p_{\%} = 100 \cdot p.$$
+Esta cifra se calcula sobre el subconjunto de las 50 obras más citadas, no sobre la totalidad del corpus.
 
-Si $n_{\text{total}}=0$, el indicador se devuelve como no disponible y no
-como cero, para evitar confundir ausencia de datos con ausencia del fenómeno.
+#### Índices precalculados
+El índice h, el índice i10 y la citación media a dos años se leen directamente del campo `summary_stats` de la fuente en OpenAlex:
 
-## Productividad de autores y Ley de Lotka
+$$h = \max \{ k \in \mathbb{N} : |\{ w : c_w \ge k \}| \ge k \}, \quad i10 = |\{ w : c_w \ge 10 \}|$$
 
-El cuaderno identifica a cada autor mediante su identificador persistente de
-OpenAlex y cuenta el número de trabajos de la revista en los que participa.
+$$C_2 = \frac{\sum_{w \in W_2} c_w}{|W_2|}$$
 
-Sea $n$ el número de trabajos publicados por un autor. La distribución
-observada se expresa como:
+#### Control de calidad
+Notebook Coding se ha validado mediante un caso de estudio real aplicado a la *Revista Española de Documentación Científica* (REDC) [21], junto con una guía técnica para incrustar el panel en OJS [20].
 
-$$A_{\text{obs}}(n) = \left|\left\{a : \operatorname{works}(a)=n\right\}\right|.$$
+---
 
-La referencia teórica se basa en la Ley de Lotka [@lotka1926frequency]:
+## (2) Disponibilidad / Availability
 
-$$A_{\text{Lotka}}(n) = \frac{A(1)}{n^2}, \qquad n\geq 1,$$
+* **Sistema operativo:** Ninguno. Los cuadernos se ejecutan completamente dentro de un navegador web moderno (Chrome, Firefox, Edge, Safari) a través de Observable [7].
+* **Lenguaje de programación:** JavaScript (ES2020+), ejecutado en el entorno reactivo de Observable 2.0 [7].
+* **Requisitos adicionales del sistema:** Conexión activa a internet para consultar la API de OpenAlex [9].
+* **Dependencias:** API REST de OpenAlex (`https://help.openalex.org/api/`); entorno de ejecución de Observable [7]; Datawrapper [2] (opcional para estadísticas OJS); Open Journal Systems (OJS) [20].
 
-donde $A(1)$ representa el número observado de autores con exactamente un
-trabajo en la revista.
+### Documentación de celdas
+| Celda de datos | Endpoint / parámetro clave | Filtro base | Qué calcula | Celda(s) de gráfico que la consume |
+| ------ | ------ | ------ | ------ | ------ |
+| **sourceData** | GET /sources/{id} | — | Registro fuente completo (`summary_stats`, `counts_by_year`) | `serieAnual` (indirecta) y `_26` (tarjetas h-index/i10-index) |
+| **serieAnual** | (derivada de `sourceData`) | — | Producción y citas por año, `year >= 2016` | `_7` (Producción anual) y `_8` (Citas por año) |
+| **allWorks** | GET /works + cursor | `primary_location.source.id:{id}` | Corpus completo paginado | `topCitados`, `obrasCitadasTop`, `productividadAutores` |
+| **topCitados** | (derivada de `allWorks`) | — | Top 10 por `cited_by_count` | `_11` (Top 10 artículos más citados) |
+| **sdgData** | GET /works?group_by=sustainable_development_goals.id | `primary_location.source.id:{id}` | Conteo de artículos por ODS | `chartODS` (heatmap D3 con los 17 ODS) |
+| **doiData** | GET /works?group_by=has_doi | `primary_location.source.id:{id}` | % con/sin DOI | `_16` (Cobertura de DOI) |
+| **orcidData** | GET /works?group_by=has_orcid | `primary_location.source.id:{id}` | % con/sin ORCID | `_18` (Cobertura de ORCID) |
+| **oaData** | GET /works?group_by=open_access.oa_status | `primary_location.source.id:{id}` | Distribución gold/green/hybrid/bronze/closed | `_20` (Estado de Acceso Abierto) |
+| **obrasCitadasTop** | (derivada de `allWorks`) | — | Top 50 por citas | `citacionesInfo` |
+| **citacionesInfo** | GET /works?filter=cites:{workId} ×50 | `cites:{id}` | Autocitación + país de la institución citante | `_23` (Procedencia de citas) y `_26` (Tarjeta autocitación) |
+| **productividadAutores** | (derivada de `allWorks`) | — | Conteo de autores por Nº de artículos | `chartLotka` (Gráfico log-log de Lotka) |
+| **authorData** | GET /works?group_by=authorships.author.id | `primary_location.source.id:{id}` | Top autores por Nº de publicaciones | `chartAuthors` (bubble pack D3) |
+| **countryData** | GET /works?group_by=authorships.countries | `primary_location.source.id:{id}` | Distribución por país de afiliación | `chartCountries` (bubble pack D3) |
+| **data (instituciones)** | GET /works?group_by=authorships.institutions.lineage | `primary_location.source.id:{id}` | Concentración institucional | `chartInstitutions` (bubble pack D3) |
 
-En este proyecto, $A(1)$ no se estima mediante regresión y el exponente
-$2$ no se ajusta a los datos. Por tanto, el gráfico representa una
-comparación pedagógica entre:
+### Ubicación del software
+* **Depósito público:** Figshare
+* **Identificador persistente:** [https://doi.org/10.6084/m9.figshare.33107114](https://doi.org/10.6084/m9.figshare.33107114) [4]
+* **Licencia:** Licencia MIT
+* **Versión publicada:** 1.0.0
+* **Repositorio de código:** GitHub - `Notebook-coding-bibliometric` [3]
+* **URL del repositorio:** [https://github.com/Kahernandezg/Notebook-coding-bibliometric](https://github.com/Kahernandezg/Notebook-coding-bibliometric)
+* **Idioma:** Inglés (documentación, código e interfaz).
 
-- la distribución observada $A_{\text{obs}}(n)$;
-- la predicción de referencia $A_{\text{Lotka}}(n)$.
+---
 
-Esta decisión simplifica la interpretación para usuarios principiantes, pero
-también constituye una limitación: el procedimiento no prueba que los datos
-de la revista sigan estrictamente una distribución de Lotka.
+## (3) Potencial de reutilización / Reuse potential
 
-## Tasa de autocitación
+Reutilizar el panel para otra revista requiere modificar el objeto de configuración base:
 
-Para estimar la autocitación, el cuaderno selecciona los 50 trabajos más
-citados de la revista. Para cada trabajo seleccionado, recupera las obras que
-lo citan mediante una consulta equivalente a:
-
-```text
-filter=cites:OPENALEX_WORK_ID
-```
-
-Una obra citante se clasifica como autocitación de revista si su identificador
-de fuente primaria coincide con el identificador de la revista analizada.
-
-Sean $n_{\text{auto}}$ el número de citas provenientes de la misma revista, y
-$n_{\text{ext}}$ el número de citas provenientes de otras revistas o fuentes.
-La tasa de autocitación se calcula como:
-
-$$SC = \frac{n_{\text{auto}}}{n_{\text{auto}}+n_{\text{ext}}} \times 100.$$
-
-Si el denominador es cero, la tasa se reporta como no disponible.
-
-Esta no es una tasa calculada sobre todo el corpus de la revista, sino sobre el
-subconjunto de los 50 trabajos más citados. La decisión reduce el costo de
-consultas a la API, pero limita la generalización del resultado. Por ello,
-el indicador debe interpretarse como una estimación de autocitación entre los
-trabajos de mayor impacto, no como una tasa corpus-wide.
-
-## Indicadores precomputados
-
-El h-index, el i10-index y la citación media a dos años se leen del campo
-`summary_stats` del registro de fuente de OpenAlex. El cuaderno no recalcula
-estos tres indicadores a partir de los conteos de citas por trabajo.
-
-El h-index se define formalmente como:
-
-$$h = \max\left\{k\in\mathbb{N} : \#\left\{w : c_w \geq k\right\}\geq k\right\},$$
-
-donde $w$ representa un trabajo, $c_w$ es el número de citas recibidas por el
-trabajo $w$, y $h$ es el mayor número de trabajos que tienen al menos $h$
-citas.
-
-El i10-index se define como:
-
-$$i_{10} = \#\left\{w : c_w \geq 10\right\}.$$
-
-La citación media a dos años puede expresarse, según el campo utilizado por
-la fuente, como:
-
-$$\overline{C}_{2} = \frac{\sum_{w\in W_{2}} c_w}{|W_{2}|},$$
-
-donde $W_{2}$ representa el conjunto de trabajos considerados dentro de la
-ventana de dos años.
-
-En el notebook, estos valores se presentan como indicadores mantenidos por
-OpenAlex. Esta decisión reduce la complejidad del código y facilita la
-auditoría, pero implica confiar en el procedimiento de cálculo empleado por
-OpenAlex. Por tanto, los valores no se verifican de manera independiente
-contra todos los conteos de citas disponibles en el corpus descargado.
-
-# Reproducibilidad y reutilización
-
-La reproducibilidad depende de la disponibilidad de:
-
-- la versión del código fuente;
-- el identificador de la revista en OpenAlex;
-- la fecha de consulta;
-- los parámetros de filtrado;
-- las respuestas devueltas por la API;
-- las versiones de las bibliotecas JavaScript utilizadas.
-
-Debido a que OpenAlex se actualiza continuamente, dos ejecuciones realizadas
-en fechas diferentes pueden producir resultados distintos. Por ello, cada
-ejecución debería documentar al menos:
-
-```text
-source_id
-query_date
-filter
-mailto
-api_version, si está disponible
-code_version
-```
-
-Un ejemplo mínimo de configuración para reutilizar el panel es:
-
-```js
+```javascript
 const config = {
-  sourceId: "s6910135",
-  journalName: "Revista Española de Documentación Científica",
-  startYear: 2010,
-  endYear: 2026,
-  mailto: "correo-institucional@example.org"
+  SOURCE_ID: "s6910135",
+  JOURNAL_SHORT_NAME: "REDC",
+  JOURNAL_NAME: "Revista Española de Documentación Científica",
+  EMAIL: "correo@institucion.edu",
+  API_KEY: "TU_API_KEY"
 };
 ```
 
-# Figuras
+Debido a que OpenAlex se actualiza continuamente, la reproducibilidad depende de documentar para cada ejecución: `source_id`, `query_date`, `filter`, `mailto`, `api_version` y `code_version`.
 
-El panel combina series temporales, rankings, distribuciones y redes para que
-cada indicador utilice una representación visual adecuada a su naturaleza.
+### Limitaciones
+1. OpenAlex puede tener variaciones de cobertura según el reconocimiento de metadatos.
+2. Los identificadores de autor pueden presentar duplicaciones.
+3. La tasa de autocitación se calcula sobre las 50 obras más citadas.
+4. El gráfico de la Ley de Lotka utiliza el exponente fijo 2 sin ajuste por regresión.
+5. Los índices resumen (h-index, i10-index, citación media a 2 años) provienen directamente de `summary_stats`.
 
-![Indicadores bibliométricos](figures/Notebook%20coding%20Indicators.png)
+### Agradecimientos
+A las comunidades de OpenAlex, Observable, Datawrapper y Open Journal Systems.
 
-# Limitaciones
+### Declaración de financiamiento
+No aplica.
 
-El proyecto presenta varias limitaciones que deben considerarse al interpretar
-los resultados:
+### Conflictos de interés
+El autor declara no tener ningún conflicto de interés.
 
-- OpenAlex no representa necesariamente todo el contenido publicado por una
-  revista.
-- La cobertura puede variar según el reconocimiento de DOI, autores,
-  afiliaciones y fuentes.
-- Los identificadores de autor pueden estar incompletos o duplicados.
-- La tasa de autocitación se calcula sobre los 50 trabajos más citados y no
-  sobre todo el corpus.
-- El gráfico de Lotka utiliza el exponente clásico $2$ sin estimarlo mediante
-  regresión.
-- Los índices de resumen se leen de `summary_stats` y no se recalculan
-  independientemente.
-- Los resultados pueden cambiar cuando OpenAlex actualiza sus registros.
-- Las estadísticas de uso de OJS y los indicadores bibliométricos de OpenAlex
-  miden fenómenos diferentes y no deben interpretarse como equivalentes.
+---
 
-# Agradecimientos
+## Referencias
 
-Agradecemos a las comunidades de OpenAlex, Observable,
-Datawrapper y Open Journal Systems. Sus APIs abiertas y herramientas de libre
-acceso hacen posible construir paneles bibliométricos reproducibles sin
-depender de una suscripción comercial de datos.
-
-# Referencias
+[1] COUNTER. Introducción a Informes COUNTER: Versión 5.1. 2024. Disponible en: https://www.countermetrics.org/wp-content/uploads/2024/04/SPANISH-Reports-guide.pdf  
+[2] Datawrapper GmbH. Datawrapper. 2024. Disponible en: https://www.datawrapper.de  
+[3] Hernández Gutiérrez KA. Notebook Coding [repositorio de GitHub]. 2026. Disponible en: https://github.com/Kahernandezg/Notebook-coding-bibliometric  
+[4] Hernández Gutiérrez KA. Notebook Coding. figshare; 2026. DOI: https://doi.org/10.6084/m9.figshare.33107114  
+[5] Knuth DE. Literate programming. *The Computer Journal*. 1984; 27(2):97–111. DOI: https://doi.org/10.1093/comjnl/27.2.97  
+[6] Lotka AJ. The frequency distribution of scientific productivity. *Journal of the Washington Academy of Sciences*. 1926; 16(12):317–323.  
+[7] Observable, Inc. Observable. 2024. Disponible en: https://observablehq.com  
+[8] OpenAlex. Get groups of entities. 2026. Disponible en: https://docs.openalex.org/how-to-use-the-api/get-groups-of-entities  
+[9] OpenAlex. API reference. 2026. Disponible en: https://help.openalex.org/api/  
+[10] Priem J, Piwowar H, Orr R. OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts. *arXiv preprint arXiv:2205.01833*. 2022. DOI: https://doi.org/10.48550/arXiv.2205.01833  
+[11] Willinsky J. Open Journal Systems: An example of open source software for journal management and publishing. *Library Hi Tech*. 2005; 23(4):504–519. DOI: https://doi.org/10.1108/07378830510636300  
+[12] Schubotz S, Schubotz M, Auernhammer GK. Electronic Laboratory Notebook: An Adaptable Solution. *Journal of Open Research Software*. 2025; 13(1):11. DOI: https://doi.org/10.5334/jors.391  
+[13] Troupin G et al. DIVAnd training: producing ocean climatologies with Jupyter notebooks. *Journal of Open Source Education*. 2026; 9(99):278. DOI: https://doi.org/10.21105/jose.00278  
+[14] Repiso Caballero R, Cabezas Clavijo Á. Contra la bibliometría ‘rápida y sucia’: aspectos para valorar la complejidad en los análisis bibliométricos. *Revista Panamericana de Comunicación*. 2025; 7(1). DOI: https://doi.org/10.21555/RPC.V7I1.3419  
+[15] van Eck NJ, Waltman L. Software survey: VOSviewer, a computer program for bibliometric mapping. *Scientometrics*. 2010; 84(2):523–538. DOI: https://doi.org/10.1007/s11192-009-0146-3  
+[16] Aria M, Cuccurullo C. bibliometrix: An R-tool for comprehensive science mapping analysis. *Journal of Informetrics*. 2017; 11(4):959–975. DOI: https://doi.org/10.1016/j.joi.2017.08.007  
+[17] Aria M, Cuccurullo C, D’Aniello L, Spano M. Biblioshiny and the SAAS Workflow: An integrated framework for transparent and reproducible science mapping. *Journal of Informetrics*. 2026. DOI: https://doi.org/10.1016/j.joi.2026.101837  
+[18] Harzing AW. Publish or Perish. 2007. Disponible en: https://harzing.com/resources/publish-or-perish  
+[19] Macêdo DJ, Schiessl IT, Shintaku M. El uso de OpenAlex en los estudios de métricas bibliométricas. *Biblios: Journal of Librarianship and Information Science*. 2025; (esp):e015. DOI: https://doi.org/10.5195/biblios.2025.1268  
+[20] Public Knowledge Project. Open Journal Systems (OJS). Vancouver, BC: PKP; 2026. Disponible en: https://pkp.sfu.ca/software/ojs/  
+[21] Consejo Superior de Investigaciones Científicas. Revista Española de Documentación Científica. Madrid: CSIC; 1977–presente. Disponible en: https://redc.revistas.csic.es/  
+[22] DOI Foundation. DOI Handbook. Disponible en: https://www.doi.org/doi-handbook/html/  
+[23] ORCID. ORCID e identificadores persistentes. Disponible en: https://info.orcid.org/es/documentation/integration-guide/orcid-and-persistent-identifiers/
